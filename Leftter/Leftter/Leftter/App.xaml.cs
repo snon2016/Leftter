@@ -13,7 +13,7 @@ namespace Leftter
         {
             InitializeComponent();
 
-            MainPage = new Leftter.MainPage();
+            MainPage = new MainPage();
         }
 
         protected override void OnStart()

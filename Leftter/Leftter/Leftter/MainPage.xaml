@@ -3,9 +3,27 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Leftter"
              x:Class="Leftter.MainPage">
-
-  <Label Text="Welcome to Xamarin Forms!"
-           VerticalOptions="Center"
-           HorizontalOptions="Center" />
-
+    <ContentPage.Padding>
+      <OnPlatform x:TypeArguments="Thickness"
+                  iOS="0,20,0,0"
+                  Android="0" />
+    </ContentPage.Padding>
+    <ContentPage.Content>
+      <StackLayout>
+        <ListView x:Name="list"
+                  ItemsSource="{Binding}">
+          <ListView.ItemTemplate>
+            <DataTemplate>
+              <TextCell Text="{Binding TextItem}" Detail="{Binding DetailItem}" />
+            </DataTemplate>
+          </ListView.ItemTemplate>        
+        </ListView>
+      <StackLayout x:Name="stack"
+                   Padding="10"
+                   IsVisible="False">
+      <ActivityIndicator x:Name="indicator"
+                         IsRunning="True" />
+      </StackLayout>
+      </StackLayout>
+    </ContentPage.Content>
 </ContentPage>
