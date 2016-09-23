@@ -14,16 +14,32 @@
                   ItemsSource="{Binding}">
           <ListView.ItemTemplate>
             <DataTemplate>
-              <TextCell Text="{Binding TextItem}" Detail="{Binding DetailItem}" />
+              <TextCell Text="{Binding TextItem}"
+                        Detail="{Binding DetailItem}" />
             </DataTemplate>
           </ListView.ItemTemplate>        
         </ListView>
-      <StackLayout x:Name="stack"
-                   Padding="10"
-                   IsVisible="False">
-      <ActivityIndicator x:Name="indicator"
-                         IsRunning="True" />
-      </StackLayout>
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <Button x:Name="getButton"
+                  Grid.Row="0"
+                  Grid.Column="0"
+                  Text="Get" />
+          <Entry x:Name="setEntry"
+                 Grid.Row="0"
+                 Grid.Column="1" />
+          <Button x:Name="sendButton"
+                  Grid.Row="0"
+                  Grid.Column="2"
+                  Text="Send" />
+        </Grid>
       </StackLayout>
     </ContentPage.Content>
 </ContentPage>

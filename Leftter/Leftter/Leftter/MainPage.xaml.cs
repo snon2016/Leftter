@@ -10,39 +10,27 @@ namespace Leftter
 {
     public partial class MainPage : ContentPage
     {
-        ObservableCollection<ListItem> listItems = new ObservableCollection<ListItem>();
         // 動的にList<ListItem>を追加するのに使う
-        int n = 0;
-        const int cellAmount = 25;
+        ObservableCollection<ListItem> listItems = new ObservableCollection<ListItem>();
 
         public MainPage()
         {
             InitializeComponent();
-            AddListItem(n);
+
             BindingContext = listItems;
 
-            // ListViewの各Itemが表示された時にイベントが発生する
-            list.ItemAppearing += async (object sender, ItemVisibilityEventArgs e) =>
+            sendButton.Clicked += delegate
             {
-                // ObservableCollectionの最後がListViewのItemと一致したときにObservableCollectionにデータを追加するなどの処理を行う
-                if(listItems.Last() == e.Item as ListItem)
-                {
-                    stack.IsVisible = true;
-                    await Task.Delay(2000);
+                AddListItem(setEntry.Text);
+                setEntry.Text = string.Empty;
 
-                    n++;
-                    AddListItem(cellAmount * n);
-                    stack.IsVisible = false;
-                }
-            };
+                list.ScrollTo(listItems.Last(), ScrollToPosition.End, true);
+            };            
         }
 
-        void AddListItem(int i)
+        void AddListItem(string text)
         {
-            foreach(var j in Enumerable.Range(i, cellAmount))
-            {
-                listItems.Add(new ListItem { TextItem = "TextData " + j, DetailItem = "DetailData " + j });
-            }
+            listItems.Add(new ListItem { TextItem = text , DetailItem = "text"});
         }
     }
 }
