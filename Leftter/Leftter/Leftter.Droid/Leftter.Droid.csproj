@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{63A3E4B8-AA05-445A-A83A-765ABF9E29CB}</ProjectGuid>
+    <ProjectGuid>{6D9BD2E5-9C1C-4F07-B62F-E3D46B5BAF08}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -122,7 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Leftter\Leftter.csproj">
-      <Project>{BAB10A52-B1E4-41F6-B49A-F8FEDAA1667A}</Project>
+      <Project>{5A640544-942B-45AF-9161-D8D850CC2E59}</Project>
       <Name>Leftter</Name>
     </ProjectReference>
   </ItemGroup>

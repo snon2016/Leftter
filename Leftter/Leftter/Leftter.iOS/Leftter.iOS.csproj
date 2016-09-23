@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D66E53D0-7320-471D-BE11-DDC6C2EBD52F}</ProjectGuid>
+    <ProjectGuid>{A5DF6AC4-F7D6-4B98-B02F-5768BB252A7C}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>Leftter.iOS</RootNamespace>
@@ -139,7 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Leftter\Leftter.csproj">
-      <Project>{BAB10A52-B1E4-41F6-B49A-F8FEDAA1667A}</Project>
+      <Project>{5A640544-942B-45AF-9161-D8D850CC2E59}</Project>
       <Name>Leftter</Name>
     </ProjectReference>
   </ItemGroup>
