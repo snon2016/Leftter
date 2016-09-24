@@ -9,8 +9,7 @@
                   Android="0" />
     </ContentPage.Padding>
     <ContentPage.Content>
-      <ScrollView>
-      <StackLayout Scale="0.9">
+      <StackLayout>
         <ListView x:Name="list"
                   ItemsSource="{Binding}">
           <ListView.ItemTemplate>
@@ -42,6 +41,5 @@
                   Text="Send" />
         </Grid>
       </StackLayout>
-      </ScrollView>
     </ContentPage.Content>
 </ContentPage>
