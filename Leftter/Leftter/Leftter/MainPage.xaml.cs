@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Plugin.Geolocator;
+using Plugin.Geolocator.Abstractions;
 
 namespace Leftter
 {
@@ -12,6 +14,7 @@ namespace Leftter
     {
         // 動的にList<ListItem>を追加するのに使う
         ObservableCollection<ListItem> listItems = new ObservableCollection<ListItem>();
+        Position position;
 
         public MainPage()
         {
@@ -19,10 +22,21 @@ namespace Leftter
 
             BindingContext = listItems;
 
-            sendButton.Clicked += delegate
+            sendButton.Clicked += async delegate
             {
                 AddListItem(setEntry.Text);
                 setEntry.Text = string.Empty;
+
+                //IGeolocator locator = CrossGeolocator.Current;
+                //locator.DesiredAccuracy = 50;
+
+                //if(locator.IsGeolocationAvailable)
+                //    if(locator.IsGeolocationEnabled)
+                //    {
+                //        position = await locator.GetPositionAsync(timeoutMilliseconds: 10000);
+                //        AddListItem("Latitude:\t" + position.Latitude);
+                //        AddListItem("Longitude:\t" + position.Longitude);
+                //    }
 
                 list.ScrollTo(listItems.Last(), ScrollToPosition.End, true);
             };            

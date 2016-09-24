@@ -9,9 +9,20 @@
                   Android="0" />
     </ContentPage.Padding>
     <ContentPage.Content>
-      <StackLayout>
+      <ScrollView>
+      <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
         <ListView x:Name="list"
-                  ItemsSource="{Binding}">
+                  ItemsSource="{Binding}"
+                  HasUnevenRows="True"
+                  Grid.Row="0"
+                  Grid.Column="0">
           <ListView.ItemTemplate>
             <DataTemplate>
               <TextCell Text="{Binding TextItem}"
@@ -19,7 +30,8 @@
             </DataTemplate>
           </ListView.ItemTemplate>        
         </ListView>
-        <Grid>
+        <Grid Grid.Row="1"
+              Grid.Column="0">
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
           </Grid.RowDefinitions>
@@ -40,6 +52,7 @@
                   Grid.Column="2"
                   Text="Send" />
         </Grid>
-      </StackLayout>
+      </Grid>
+      </ScrollView>
     </ContentPage.Content>
 </ContentPage>
