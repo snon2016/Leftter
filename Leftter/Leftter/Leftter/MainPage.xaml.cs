@@ -33,7 +33,7 @@ namespace Leftter
                 if(locator.IsGeolocationAvailable)
                     if(locator.IsGeolocationEnabled)
                     {
-                        position = await locator.GetPositionAsync(timeoutMilliseconds: 10000);
+                        position = await locator.GetPositionAsync(timeoutMilliseconds: 100);
                         AddListItem("Latitude:\t" + position.Latitude);
                         AddListItem("Longitude:\t" + position.Longitude);
                     }
