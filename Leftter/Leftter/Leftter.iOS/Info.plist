@@ -50,5 +50,9 @@
 	<string>LaunchScreen</string>
 	<key>CFBundleName</key>
 	<string>Leftter</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>位置情報を使用します。</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>位置情報を使用します。</string>
 </dict>
 </plist>

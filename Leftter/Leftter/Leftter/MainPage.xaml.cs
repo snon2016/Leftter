@@ -27,16 +27,16 @@ namespace Leftter
                 AddListItem(setEntry.Text);
                 setEntry.Text = string.Empty;
 
-                //IGeolocator locator = CrossGeolocator.Current;
-                //locator.DesiredAccuracy = 50;
+                IGeolocator locator = CrossGeolocator.Current;
+                locator.DesiredAccuracy = 50;
 
-                //if(locator.IsGeolocationAvailable)
-                //    if(locator.IsGeolocationEnabled)
-                //    {
-                //        position = await locator.GetPositionAsync(timeoutMilliseconds: 10000);
-                //        AddListItem("Latitude:\t" + position.Latitude);
-                //        AddListItem("Longitude:\t" + position.Longitude);
-                //    }
+                if(locator.IsGeolocationAvailable)
+                    if(locator.IsGeolocationEnabled)
+                    {
+                        position = await locator.GetPositionAsync(timeoutMilliseconds: 10000);
+                        AddListItem("Latitude:\t" + position.Latitude);
+                        AddListItem("Longitude:\t" + position.Longitude);
+                    }
 
                 list.ScrollTo(listItems.Last(), ScrollToPosition.End, true);
             };            
