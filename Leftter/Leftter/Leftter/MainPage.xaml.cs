@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
+using Firebase.Xamarin.Database;
 
 namespace Leftter
 {
@@ -39,7 +40,25 @@ namespace Leftter
                     }
 
                 list.ScrollTo(listItems.Last(), ScrollToPosition.End, true);
-            };            
+            };
+			getButton.Clicked += delegate {
+				var firebase = new FirebaseClient("https://test-da012.firebaseio.com/");
+				//var items = await firebase.Child("messages")
+					//.OrderByKey();
+				  //.LimitToFirst(2)
+				  //.OnceAsync<YourObject>();
+
+				var child = firebase.Child("messages");
+				var orderedChild = Firebase.Xamarin.Database.Query.QueryFactoryExtensions.OrderByKey(child);
+				var limttedChild = Firebase.Xamarin.Database.Query.QueryExtensions.LimitToFirst(orderedChild, 2);
+				var items = limttedChild.OnceAsync<ListItem>();
+
+
+				foreach (var item in items)
+				{
+					AddListItem($"{item.Key} name is {item.Object.Name}");
+				}
+			};
         }
 
         void AddListItem(string text)
