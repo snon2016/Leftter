@@ -11,11 +11,20 @@
     <ContentPage.Content>
       <StackLayout>
         <ListView x:Name="list"
-                  ItemsSource="{Binding}">
+                  ItemsSource="{Binding}"
+                  HasUnevenRows="True">
           <ListView.ItemTemplate>
             <DataTemplate>
-              <TextCell Text="{Binding TextItem}"
-                        Detail="{Binding DetailItem}" />
+              <ViewCell>
+                <StackLayout Orientation="Vertical"
+                             Padding="5">
+                  <Label Text="{Binding TextItem}"
+                         TextColor="Blue"
+                         FontSize="18"/>
+                  <Label Text="{Binding DetailItem}"
+                         HorizontalOptions="End" />
+                </StackLayout>
+              </ViewCell>
             </DataTemplate>
           </ListView.ItemTemplate>        
         </ListView>
@@ -32,9 +41,9 @@
                   Grid.Row="0"
                   Grid.Column="0"
                   Text="Get" />
-          <Entry x:Name="setEntry"
-                 Grid.Row="0"
-                 Grid.Column="1" />
+          <Editor x:Name="setEditor"
+                  Grid.Row="0"
+                  Grid.Column="1"/>
           <Button x:Name="sendButton"
                   Grid.Row="0"
                   Grid.Column="2"

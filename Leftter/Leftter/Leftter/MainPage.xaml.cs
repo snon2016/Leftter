@@ -20,13 +20,13 @@ namespace Leftter
         {
             InitializeComponent();
 
-            BindingContext = listItems;    
+            BindingContext = listItems;
         }
 
         private void SendButtonClicked(object sender, EventArgs e)
         {
-            AddListItem(setEntry.Text);
-            setEntry.Text = string.Empty;
+            AddListItem(setEditor.Text, DateTime.Now.ToString());
+            setEditor.Text = string.Empty;
 
             GetGPS();
         }
@@ -42,8 +42,7 @@ namespace Leftter
                     try
                     {
                         position = await locator.GetPositionAsync(timeoutMilliseconds: 10000);
-                        AddListItem("Latitude:\t" + position.Latitude);
-                        AddListItem("Longitude:\t" + position.Longitude);
+                        AddListItem("Latitude:\t" + position.Latitude + "\nLongitude:\t" + position.Longitude);
                     }
                     catch
                     {
@@ -56,7 +55,12 @@ namespace Leftter
 
         void AddListItem(string text)
         {
-            listItems.Add(new ListItem { TextItem = text , DetailItem = "text"});
+            listItems.Add(new ListItem { TextItem = text, DetailItem = string.Empty });
+        }
+
+        void AddListItem(string text, string detail)
+        {
+            listItems.Add(new ListItem { TextItem = text,  DetailItem = detail });
         }
     }
 }

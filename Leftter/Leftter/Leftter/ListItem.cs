@@ -1,6 +1,8 @@
-﻿namespace Leftter
+﻿using Xamarin.Forms;
+
+namespace Leftter
 {
-    class ListItem
+    class ListItem : ViewCell
     {
         public string TextItem { get; set; }
         public string DetailItem { get; set; }
