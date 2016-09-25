@@ -20,26 +20,38 @@ namespace Leftter
         {
             InitializeComponent();
 
-            BindingContext = listItems;
+            BindingContext = listItems;    
+        }
 
-            sendButton.Clicked += async delegate
-            {
-                AddListItem(setEntry.Text);
-                setEntry.Text = string.Empty;
+        private void SendButtonClicked(object sender, EventArgs e)
+        {
+            AddListItem(setEntry.Text);
+            setEntry.Text = string.Empty;
 
-                IGeolocator locator = CrossGeolocator.Current;
-                locator.DesiredAccuracy = 50;
+            GetGPS();
+        }
 
-                if(locator.IsGeolocationAvailable)
-                    if(locator.IsGeolocationEnabled)
+        private async void GetGPS()
+        {
+            IGeolocator locator = CrossGeolocator.Current;
+            locator.DesiredAccuracy = 50;
+
+            if(locator.IsGeolocationAvailable)
+                if(locator.IsGeolocationEnabled)
+                {
+                    try
                     {
-                        position = await locator.GetPositionAsync(timeoutMilliseconds: 100);
+                        position = await locator.GetPositionAsync(timeoutMilliseconds: 10000);
                         AddListItem("Latitude:\t" + position.Latitude);
                         AddListItem("Longitude:\t" + position.Longitude);
                     }
+                    catch
+                    {
+                        await DisplayAlert("Error", "Could not get GPS data.", "OK");
+                    }
+            }
 
-                list.ScrollTo(listItems.Last(), ScrollToPosition.End, true);
-            };            
+            list.ScrollTo(listItems.Last(), ScrollToPosition.End, true);
         }
 
         void AddListItem(string text)

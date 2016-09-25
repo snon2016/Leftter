@@ -38,7 +38,8 @@
           <Button x:Name="sendButton"
                   Grid.Row="0"
                   Grid.Column="2"
-                  Text="Send" />
+                  Text="Send"
+                  Clicked="SendButtonClicked"/>
         </Grid>
       </StackLayout>
     </ContentPage.Content>
