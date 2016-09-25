@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
+using Firebase.Xamarin.Database;
 
 namespace Leftter
 {
@@ -31,6 +32,21 @@ namespace Leftter
             GetGPS();
         }
 
+        private async void GetButtonClicked(object sender, EventArgs e)
+        {
+            var firebase = new FirebaseClient("https://test-da012.firebaseio.com/");
+
+            var child = firebase.Child("messages");
+            var orderedChild = Firebase.Xamarin.Database.Query.QueryFactoryExtensions.OrderByKey(child);
+            var limttedChild = Firebase.Xamarin.Database.Query.QueryExtensions.LimitToFirst(orderedChild, 2);
+            var items = await limttedChild.OnceAsync<ListItem>();
+
+            foreach(var item in items)
+            {
+                AddListItem($"{item.Key}");
+            }
+        }
+
         private async void GetGPS()
         {
             IGeolocator locator = CrossGeolocator.Current;
@@ -50,7 +66,7 @@ namespace Leftter
                     }
             }
 
-            list.ScrollTo(listItems.Last(), ScrollToPosition.End, true);
+            logListView.ScrollTo(listItems.Last(), ScrollToPosition.End, true);
         }
 
         void AddListItem(string text)

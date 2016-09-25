@@ -10,7 +10,7 @@
     </ContentPage.Padding>
     <ContentPage.Content>
       <StackLayout>
-        <ListView x:Name="list"
+        <ListView x:Name="logListView"
                   ItemsSource="{Binding}"
                   HasUnevenRows="True">
           <ListView.ItemTemplate>
@@ -40,7 +40,8 @@
           <Button x:Name="getButton"
                   Grid.Row="0"
                   Grid.Column="0"
-                  Text="Get" />
+                  Text="Get"
+                  Clicked="GetButtonClicked" />
           <Editor x:Name="setEditor"
                   Grid.Row="0"
                   Grid.Column="1"/>
