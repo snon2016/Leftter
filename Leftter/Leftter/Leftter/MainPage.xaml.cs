@@ -14,8 +14,7 @@ namespace Leftter
     public partial class MainPage : ContentPage
     {
         // 動的にList<ListItem>を追加するのに使う
-        ObservableCollection<ListItem> listItems = new ObservableCollection<ListItem>();
-        Position position;
+        ObservableCollection<SendCell> listItems = new ObservableCollection<SendCell>();
 
         public MainPage()
         {
@@ -26,10 +25,12 @@ namespace Leftter
 
         private void SendButtonClicked(object sender, EventArgs e)
         {
-            AddListItem(setEditor.Text, DateTime.Now.ToString());
-            setEditor.Text = string.Empty;
+            sendButton.IsEnabled = false;
+            string detailText = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
+            AddListItem(setEditor.Text, detailText);
+            SendData(setEditor.Text, detailText);
 
-            GetGPS();
+            setEditor.Text = string.Empty;
         }
 
         private async void GetButtonClicked(object sender, EventArgs e)
@@ -39,44 +40,61 @@ namespace Leftter
             var child = firebase.Child("messages");
             var orderedChild = Firebase.Xamarin.Database.Query.QueryFactoryExtensions.OrderByKey(child);
             var limttedChild = Firebase.Xamarin.Database.Query.QueryExtensions.LimitToFirst(orderedChild, 2);
-            var items = await limttedChild.OnceAsync<ListItem>();
+            var items = await limttedChild.OnceAsync<SendCell>();
 
             foreach(var item in items)
             {
-                AddListItem($"{item.Key}");
+                if(IsGotData(item.Object)) break;
+                AddListItem(item.Object.MainText, item.Object.DetailText);
             }
         }
 
-        private async void GetGPS()
+        private async void SendData(string mainText, string detailText)
+        {
+            SendCell sendCell = new SendCell();
+            var firebase = new FirebaseClient("https://test-da012.firebaseio.com/");
+
+            sendCell.MainText = mainText;
+            sendCell.DetailText = detailText;
+            sendCell.SendPosition = await GetGPS();
+
+            var item = await firebase.Child("messages").PostAsync(sendCell);
+
+            listItems[listItems.Count-1].SendPosition = sendCell.SendPosition;
+            sendButton.IsEnabled = true;
+        }
+
+        private bool IsGotData(SendCell cell)
+        {
+            foreach(var list in listItems)
+                if(cell.SendPosition.Timestamp.DateTime
+                    == list.SendPosition.Timestamp.DateTime) return true;
+            return false;
+        }
+
+        private async Task<Position> GetGPS()
         {
             IGeolocator locator = CrossGeolocator.Current;
             locator.DesiredAccuracy = 50;
-
-            if(locator.IsGeolocationAvailable)
-                if(locator.IsGeolocationEnabled)
-                {
-                    try
-                    {
+            Position position = new Position();
+            try
+            {
+                if(locator.IsGeolocationAvailable)
+                    if(locator.IsGeolocationEnabled)
                         position = await locator.GetPositionAsync(timeoutMilliseconds: 10000);
-                        AddListItem("Latitude:\t" + position.Latitude + "\nLongitude:\t" + position.Longitude);
-                    }
-                    catch
-                    {
-                        await DisplayAlert("Error", "Could not get GPS data.", "OK");
-                    }
+
+                return position;
             }
-
-            logListView.ScrollTo(listItems.Last(), ScrollToPosition.End, true);
-        }
-
-        void AddListItem(string text)
-        {
-            listItems.Add(new ListItem { TextItem = text, DetailItem = string.Empty });
+            catch
+            {
+                await DisplayAlert("Error", "Could not get GPS data.", "OK");
+            }
+            return null;
         }
 
         void AddListItem(string text, string detail)
         {
-            listItems.Add(new ListItem { TextItem = text,  DetailItem = detail });
+            listItems.Add(new SendCell { MainText = text,  DetailText = detail });
         }
     }
 }

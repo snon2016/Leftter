@@ -1,10 +1,13 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using Plugin.Geolocator.Abstractions;
+using Xamarin.Forms;
 
 namespace Leftter
 {
-    class ListItem : ViewCell
+    class SendCell
     {
-        public string TextItem { get; set; }
-        public string DetailItem { get; set; }
+        public string MainText { get; set; }
+        public string DetailText { get; set; }
+        public Position SendPosition { get; set; }
     }
 }

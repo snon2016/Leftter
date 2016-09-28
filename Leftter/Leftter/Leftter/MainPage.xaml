@@ -18,10 +18,10 @@
               <ViewCell>
                 <StackLayout Orientation="Vertical"
                              Padding="5">
-                  <Label Text="{Binding TextItem}"
+                  <Label Text="{Binding MainText}"
                          TextColor="Blue"
                          FontSize="18"/>
-                  <Label Text="{Binding DetailItem}"
+                  <Label Text="{Binding DetailText}"
                          HorizontalOptions="End" />
                 </StackLayout>
               </ViewCell>
