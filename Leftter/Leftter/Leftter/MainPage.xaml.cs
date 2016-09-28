@@ -39,7 +39,7 @@ namespace Leftter
 
             var child = firebase.Child("messages");
             var orderedChild = Firebase.Xamarin.Database.Query.QueryFactoryExtensions.OrderByKey(child);
-            var limttedChild = Firebase.Xamarin.Database.Query.QueryExtensions.LimitToFirst(orderedChild, 2);
+            var limttedChild = Firebase.Xamarin.Database.Query.QueryExtensions.LimitToFirst(orderedChild, 10);
             var items = await limttedChild.OnceAsync<SendCell>();
 
             foreach(var item in items)
@@ -58,7 +58,7 @@ namespace Leftter
             sendCell.DetailText = detailText;
             sendCell.SendPosition = await GetGPS();
 
-            var item = await firebase.Child("messages").PostAsync(sendCell);
+            await firebase.Child("messages").PostAsync(sendCell);
 
             listItems[listItems.Count-1].SendPosition = sendCell.SendPosition;
             sendButton.IsEnabled = true;
