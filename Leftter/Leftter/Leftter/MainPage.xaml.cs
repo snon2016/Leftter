@@ -39,12 +39,12 @@ namespace Leftter
 
             var child = firebase.Child("messages");
             var orderedChild = Firebase.Xamarin.Database.Query.QueryFactoryExtensions.OrderByKey(child);
-            var limttedChild = Firebase.Xamarin.Database.Query.QueryExtensions.LimitToFirst(orderedChild, 2);
+            var limttedChild = Firebase.Xamarin.Database.Query.QueryExtensions.LimitToFirst(orderedChild, 100);
             var items = await limttedChild.OnceAsync<SendCell>();
 
             foreach(var item in items)
             {
-                if(IsGotData(item.Object)) break;
+                //if(IsGotData(item.Object)) break;
                 AddListItem(item.Object.MainText, item.Object.DetailText);
             }
         }
@@ -94,7 +94,8 @@ namespace Leftter
 
         void AddListItem(string text, string detail)
         {
-            listItems.Add(new SendCell { MainText = text,  DetailText = detail });
+            listItems.Add(new SendCell { MainText = text, DetailText = detail });
+            logListView.ScrollTo(listItems.Last(), ScrollToPosition.End, true);
         }
     }
 }
