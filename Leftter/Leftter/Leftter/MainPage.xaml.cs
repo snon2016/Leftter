@@ -8,6 +8,7 @@ using Xamarin.Forms;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using Firebase.Xamarin.Database;
+using static System.Math;
 
 namespace Leftter
 {
@@ -41,11 +42,13 @@ namespace Leftter
             var orderedChild = Firebase.Xamarin.Database.Query.QueryFactoryExtensions.OrderByKey(child);
             var limttedChild = Firebase.Xamarin.Database.Query.QueryExtensions.LimitToFirst(orderedChild, 100);
             var items = await limttedChild.OnceAsync<SendCell>();
+            Position gps = await GetGPS();
 
             foreach(var item in items)
             {
-                //if(IsGotData(item.Object)) break;
-                AddListItem(item.Object.MainText, item.Object.DetailText);
+                if(IsGotData(item.Object)) continue;
+                if(CanGetRange(item.Object.SendPosition, gps))
+                    AddListItem(item.Object);
             }
         }
 
@@ -67,9 +70,17 @@ namespace Leftter
         private bool IsGotData(SendCell cell)
         {
             foreach(var list in listItems)
-                if(cell.SendPosition.Timestamp.DateTime
-                    == list.SendPosition.Timestamp.DateTime) return true;
+                if(cell.SendPosition.Timestamp.DateTime == list.SendPosition.Timestamp.DateTime &&
+                    cell.SendPosition.Latitude == list.SendPosition.Latitude &&
+                    cell.SendPosition.Longitude == list.SendPosition.Longitude) return true;
             return false;
+        }
+
+        private bool CanGetRange(Position pos, Position gps)
+        {
+            setEditor.Text += Sqrt(Pow((pos.Latitude - gps.Latitude) * 2, 2) + Pow(pos.Longitude - gps.Longitude, 2)).ToString() + "\n";
+            if(0.0010 < Sqrt(Pow((pos.Latitude - gps.Latitude) * 2, 2) + Pow(pos.Longitude - gps.Longitude, 2))) return false;
+            return true;
         }
 
         private async Task<Position> GetGPS()
@@ -95,6 +106,12 @@ namespace Leftter
         void AddListItem(string text, string detail)
         {
             listItems.Add(new SendCell { MainText = text, DetailText = detail });
+            logListView.ScrollTo(listItems.Last(), ScrollToPosition.End, true);
+        }
+
+        void AddListItem(SendCell cell)
+        {
+            listItems.Add(cell);
             logListView.ScrollTo(listItems.Last(), ScrollToPosition.End, true);
         }
     }
